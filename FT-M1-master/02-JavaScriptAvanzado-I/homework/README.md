@@ -28,6 +28,10 @@ c(8,9,10);
 console.log(b);
 console.log(x);
 ```
+El console.log(b) == 10
+El console.log(x) == 1
+
+las variables con var son variables locales o globales dependiendo el contexto donde fue declarada, pero las variables que no son declaradas con var son variables que inmediatamente comienzan a existir sin importar el contexto es decir cuando el contexto donde existe esa variable es ejecutado esta variable pasa a existir en todos los contextos como si fuera parte del contexto global y no de un contexto local.
 
 ```javascript
 console.log(bar);
@@ -37,6 +41,8 @@ function foo() { console.log('Hola!'); }
 var bar = 1;
 baz = 2;
 ```
+baz === not defined
+bar === undefined
 
 ```javascript
 var instructor = "Tony";
@@ -45,6 +51,7 @@ if(true) {
 }
 console.log(instructor);
 ```
+instructor === franco
 
 ```javascript
 var instructor = "Tony";
@@ -57,6 +64,7 @@ console.log(instructor);
 })();
 console.log(instructor);
 ```
+instructor === tony
 
 ```javascript
 var instructor = "Tony";
@@ -70,27 +78,30 @@ if (true) {
 console.log(instructor);
 console.log(pm);
 ```
+instructor == the flash
+pm === franco
+
 ### Coerción de Datos
 
 ¿Cuál crees que será el resultado de la ejecución de estas operaciones?:
 
 ```javascript
-6 / "3"
-"2" * "3"
-4 + 5 + "px"
-"$" + 4 + 5
-"4" - 2
-"4px" - 2
-7 / 0
-{}[0]
-parseInt("09")
-5 && 2
-2 && 5
-5 || 0
-0 || 5
-[3]+[3]-[10]
-3>2>1
-[] == ![]
+6 / "3" === 2
+"2" * "3" === 6
+4 + 5 + "px" === "9px"
+"$" + 4 + 5 === "$45"
+"4" - 2 === 2
+"4px" - 2 === NaN
+7 / 0 === Infinity
+{}[0] === undefined
+parseInt("09") === 09
+5 && 2 === 2
+2 && 5 === 5
+5 || 0 === 5
+0 || 5 === 5
+[3]+[3]-[10] === undefined || 4
+3>2>1 === false
+[] == ![] true
 ```
 
 > Si te quedó alguna duda repasá con [este artículo](http://javascript.info/tutorial/object-conversion).
@@ -112,6 +123,8 @@ function test() {
 }
 
 test();
+
+la ejecucion no retorna nada pero en consola se muestra un undefined === a y foo() === 2
 ```
 
 Y el de este código? :
@@ -128,6 +141,7 @@ function getFood(food) {
 }
 
 getFood(false);
+en esta parte retorna snack === undefined
 ```
 
 
@@ -152,6 +166,11 @@ console.log(obj.prop.getFullname());
 var test = obj.prop.getFullname;
 
 console.log(test());
+
+El primer console.log ejecuta el metodo getFullname que trae el nombre del objeto exterior que en este caso es el prop que contiene un fullname y le hace referencia con el this.fullname.
+
+en caso del console.log que llama a test no retorna nada porque no se esta creando un objeto al cual hacer referencia en el momento es decir esa propiedad pertenece a un objeto que aun no existe y this.fullname no tiene a quien referirse todavia porque no a sido creado.
+
 ```
 
 ### Event loop
@@ -168,3 +187,6 @@ function printing() {
 
 printing();
 ```
+primero se muestra el console.log(1) y luego el console.log(4) despues toma los siguientes dos que pasaron a la API de ejecucion que son console.log(3) y luego console.log(2) estos en ese orden ya que el 2 tiene un retraso de 1 segundo.
+
+la api espera a que la pila de ejecucion ejecute todos los pasos antes de ejecutar los que les son mandados a ella asi y luego los pone en el orden de llegada en la pila.
