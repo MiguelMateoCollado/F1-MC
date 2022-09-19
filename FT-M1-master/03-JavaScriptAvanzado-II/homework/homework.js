@@ -29,6 +29,13 @@ function counter() {
 }
 
 function cacheFunction(cb) {
+  var obj = {}
+  return function (arg) {
+    if (!obj.hasOwnProperty(arg)) {
+      obj[arg] = cb(arg)
+    }
+    return obj[arg]
+  }
   /*
   Ejercicio 2
 
@@ -60,13 +67,7 @@ function cacheFunction(cb) {
   squareCache(5)    // no volverá a invocar a square, simplemente buscará en la caché cuál es el resultado de square(5) y lo retornará (tip: si usaste un objeto, podés usar hasOwnProperty) 
 
   */
-  var obj = {}
-  return function (arg) {
-    if (!obj.hasOwnProperty(arg)) {
-      obj[arg] = cb(arg)
-    }
-    return obj[arg]
-  }
+
 }
 
 // Bind

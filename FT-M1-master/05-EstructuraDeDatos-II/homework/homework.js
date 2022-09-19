@@ -11,9 +11,65 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
-
-function Node(value) {}
+class LinkedList {
+  constructor() {
+    this.head = null;
+  }
+  add(value) {
+    let node = new Node(value);
+    let current = this.head;
+    if (!current) {
+      this.head = node;
+      return node
+    } else {
+      while (current.next) {
+        current = current.next
+      }
+      current.next = node;
+    }
+  }
+  remove() {
+    var actual = this.head;
+    var actualvalue;
+    if (this.head === null) {
+      return null;
+    }else if (actual.next !== null) {
+      while (actual.next.next) {
+        actual = actual.next;
+      }
+      actualvalue = actual.next.value;
+      actual.next = null;
+      
+      return actualvalue;
+    }else{
+      actualvalue = this.head.value;
+      this.head = null;
+      return actualvalue;
+    }
+  }
+    search(value){
+    if (this.head ===null) return null
+    let current = this.head
+    while (current) {
+      if (current.value === value) {
+        return current.value 
+      }else if (typeof value === "function") {
+        if (value(current.value)) {
+          return current.value
+        }
+      }
+      current = current.next
+    }
+    return null
+    }
+  
+}
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
 
 /*
 Implementar la clase HashTable.
@@ -30,7 +86,43 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+class HashTable {
+  constructor(){
+    this.numBuckets = 35
+    this.buckets = []
+  }
+  hash(value){
+    let totalChart = 0
+    for (let i = 0; i < value.length; i++) {
+    let valorChart = value.charCodeAt(i)
+    totalChart += valorChart
+    }
+    return totalChart % this.numBuckets
+  }
+  set(key,value){
+    if (typeof key !== 'string') throw new TypeError('Keys must be string')
+    let i = this.hash(key)
+    if (this.buckets[i] === undefined) {
+      this.buckets[i] = {}
+    }
+    this.buckets[i][key] = value
+
+  }
+  get(key){
+    let i = this.hash(key)
+    return this.buckets[i][key]
+  }
+  hasKey(key){
+    let i = this.hash(key)
+    if (this.buckets[i][key] === undefined) {
+      return false
+    }else {
+      return true
+    }
+    return this.buckets[i][key]
+  }
+}
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
